@@ -1,0 +1,16 @@
+<head>
+  <title>example</title>
+</head>
+
+<body>
+  {{#if ready}}
+    {{> example}}
+  {{/if}}
+</body>
+
+<template name="example">
+  {{#Map id="example" options=mapOptions}}
+    {{> Marker id="marker1" lat='42.3601' lng='-71.0589' content=marker1Content}}
+    {{> Marker id="marker2" lat='42.3601' lng='-72.0589'}}
+  {{/Map}}
+</template>
