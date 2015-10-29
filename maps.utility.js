@@ -50,3 +50,31 @@ Utility.updateProperties = function (entity, data) {
     }
   }
 };
+
+// Scale the bounding box by a given exponent.
+// The exponent allows us to view more of the map
+// if the markers are close together.
+Utility.scaleBounds = function (bounds, exponent) {
+  if (!bounds) return;
+  if (!exponent) return bounds;
+
+  var center = bounds.getCenter();
+  var scaledBounds = Maps.LatLngBounds();
+
+  _.each(bounds, function (point, key) {
+    if (isNaN(key)) return;
+
+    var latChange = point.lat - center.lat;
+    var lngChange = point.lng - center.lng;
+
+    var newLat = point.lat +
+      latChange / Math.abs(latChange) * Math.pow(Math.abs(latChange), exponent);
+    var newLng = point.lng +
+      lngChange / Math.abs(lngChange) * Math.pow(Math.abs(lngChange), exponent);
+
+    var newPosition = Maps.LatLng(newLat, newLng);
+    scaledBounds.extend(newPosition);
+  });
+
+  return scaledBounds;
+};

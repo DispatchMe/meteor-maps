@@ -1,5 +1,3 @@
-/* global GoogleMaps:true, Maps:false */
-
 var GoogleMaps = {};
 
 Maps.Library.GoogleMaps = GoogleMaps;
@@ -26,12 +24,8 @@ GoogleMaps.createMap = function (container, options) {
   return new google.maps.Map(container, options);
 };
 
-GoogleMaps.mapType = function (type) {
-  return google.maps.MapTypeId[type];
-};
-
 GoogleMaps.addMarker = function (map, options, callback) {
-  options = _.extend({ map: map.map }, options);
+  options = _.extend({ map: map }, options);
 
   if (_.isObject(options.icon)) {
     if (options.icon.size) options.icon.size = new google.maps.Size(options.icon.size[0], options.icon.size[1]);
@@ -51,39 +45,15 @@ GoogleMaps.addMarker = function (map, options, callback) {
 
   var content = '<div id="' + options.id + '" style="' + styles + '">' + options.content + '</div>';
 
-  marker.infowindow = new google.maps.InfoWindow({
+  var infowindow = new google.maps.InfoWindow({
     content: content,
     enableEventPropagation: true
   });
 
-  marker.infowindow.eventsId = options.id;
+  infowindow.id = options.id;
+  infowindow.eventsId = options.id;
 
-  marker.infowindow.setDynamicContent = function (newContent) {
-    var contentToSet = '<div id="' + options.id + '" style="' + styles + '">' + newContent + '</div>';
-
-    marker.infowindow.setContent(contentToSet);
-
-    var events = Maps.Utility.parseEvents(map, 'infowindow', marker.infowindow);
-    if (events) $('#' + options.id).click(events);
-  };
-
-  marker.showInfoWindow = function () {
-    marker.infowindow.open(map.map, marker);
-
-    var events = Maps.Utility.parseEvents(map, 'infowindow', marker.infowindow);
-    if (events) $('#' + options.id).click(events);
-  };
-
-  marker.remove = function () {
-    marker.setMap(null);
-  };
-
-  var events = Maps.Utility.parseEvents(map, 'marker', marker);
-  if (events) marker.addListener('click', events);
-
-  map.markerAdded(marker);
-
-  callback(marker);
+  callback(marker, infowindow);
 };
 
 GoogleMaps.LatLng = function (lat, lng) {
@@ -92,4 +62,131 @@ GoogleMaps.LatLng = function (lat, lng) {
 
 GoogleMaps.LatLngBounds = function () {
   return new google.maps.LatLngBounds();
+};
+
+GoogleMaps.mapType = function (type) {
+  return google.maps.MapTypeId[type];
+};
+
+
+/**
+ * Javascript v3 Map Functions
+ *
+ * These functions are available on the Map object as described in the docs:
+ * https://developers.google.com/maps/documentation/javascript/3.exp/reference
+ */
+
+GoogleMaps.fitBounds = function (map, bounds) {
+  if (map) map.fitBounds(bounds);
+};
+
+GoogleMaps.getBounds = function (map) {
+  if (map) map.getBounds();
+};
+
+GoogleMaps.getCenter = function (map) {
+  if (map) map.getCenter();
+};
+
+GoogleMaps.getDiv = function (map) {
+  if (map) map.getDiv();
+};
+
+GoogleMaps.getHeading = function (map) {
+  if (map) map.getHeading();
+};
+
+GoogleMaps.getMapTypeId = function (map) {
+  if (map) map.getMapTypeId();
+};
+
+GoogleMaps.getProjection = function (map) {
+  if (map) map.getProjection();
+};
+
+GoogleMaps.getStreetView = function (map) {
+  if (map) map.getStreetView();
+};
+
+GoogleMaps.getTilt = function (map) {
+  if (map) map.getTilt();
+};
+
+GoogleMaps.getZoom = function (map) {
+  if (map) map.getZoom();
+};
+
+GoogleMaps.panBy = function (map, x, y) {
+  if (map) map.panBy(x, y);
+};
+
+GoogleMaps.panTo = function (map, position) {
+  if (map) map.panTo(position);
+};
+
+GoogleMaps.panToBounds = function (map, bounds) {
+  if (map) map.panToBounds(bounds);
+};
+
+GoogleMaps.setCenter = function (map, center) {
+  if (map) map.setCenter(center);
+};
+
+GoogleMaps.setHeading = function (map, heading) {
+  if (map) map.setHeading(heading);
+};
+
+GoogleMaps.setMapTypeId = function (map, mapTypeId) {
+  if (map) map.setMapTypeId(mapTypeId);
+};
+
+GoogleMaps.setStreetView = function (map, position) {
+  if (map) map.setStreetView(position);
+};
+
+GoogleMaps.setTilt = function (map, tilt) {
+  if (map) map.setTilt(tilt);
+};
+
+GoogleMaps.setZoom = function (map, zoom) {
+  if (map) map.setZoom(zoom);
+};
+
+
+/**
+ * Additional Map Functions
+ *
+ * These functions are not available on the Map object in the v3 API.
+ * They have been created to attempt to mimic some functionality in the native API.
+ */
+
+GoogleMaps.animateCamera = function (map, options, callback) {
+  options = options || {};
+
+  console.log(map, options)
+  if (options.target) {
+    if (options.target instanceof google.maps.LatLng) {
+      map.panTo(options.target);
+    }
+
+    if (options.target instanceof google.maps.LatLngBounds) {
+      map.fitBounds(options.target);
+    }
+
+    // Wait to zoom until after pan
+    Meteor.setTimeout(function () {
+      if (options.zoom) map.setZoom(options.zoom);
+    }, 500);
+  } else {
+    if (options.zoom) map.setZoom(options.zoom);
+  }
+};
+
+GoogleMaps.removeMarker = function (marker) {
+  marker.setMap(null);
+};
+
+GoogleMaps.bindMarkerEvents = function (map, marker) {
+  var eventsMap = Maps.Utility.parseEvents(map, 'marker', marker);
+  if (eventsMap) marker._marker.addListener('click', eventsMap);
 };

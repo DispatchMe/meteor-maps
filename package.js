@@ -5,13 +5,16 @@ Package.describe({
 });
 
 Cordova.depends({
-  'plugin.google.maps': '1.2.5'
+  'plugin.google.maps':
+  'https://github.com/DispatchMe/cordova-plugin-googlemaps.git#c407039ad9334ba122fedd16ea6d0c254cdf9a25'
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.1.0.3');
+  api.versionsFrom('1.2');
 
   api.use([
+    'ecmascript',
+    'reactive-var',
     'templating',
     'underscore',
 
@@ -22,13 +25,13 @@ Package.onUse(function(api) {
   ], 'client');
 
   api.addFiles([
-    'maps.js',
-    'maps.utility.js',
-
+    'components/marker.html',
+    'components/marker.js',
     'components/map.html',
     'components/map.js',
-    'components/marker.html',
-    'components/marker.js'
+
+    'maps.js',
+    'maps.utility.js'
   ], ['web.cordova', 'web.browser']);
 
   api.addFiles([

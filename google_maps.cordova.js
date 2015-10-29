@@ -1,5 +1,3 @@
-/* global GoogleMaps:true, Maps:false */
-
 var GoogleMaps = {};
 
 Maps.Library.GoogleMaps = GoogleMaps;
@@ -26,36 +24,42 @@ GoogleMaps.createMap = function (container, options) {
   return plugin.google.maps.Map.getMap(container, mapOptions);
 };
 
-GoogleMaps.mapType = function (type) {
-  return plugin.google.maps.MapTypeId[type];
-};
-
-GoogleMaps.LatLng = function (lat, lng) {
-  return new plugin.google.maps.LatLng(lat, lng);
-};
-
 GoogleMaps.addMarker = function (map, options, callback) {
-  if (!map || !map.map) return;
+  if (!map) return;
 
   if (_.isObject(options.icon) && options.icon.size) {
     options.icon.size = { width: options.icon.size[0], height: options.icon.size[1] };
   }
 
   options.snippet = options.content;
-  options.disableAutoPan = true;
+  options.disableAutoPan = true
 
-  map.map.addMarker(options, function (marker) {
+  map.addMarker(options, function (marker) {
     marker.eventsId = options.id;
 
-    var events = Maps.Utility.parseEvents(map, 'marker', marker);
-    if (events) marker.addEventListener(plugin.google.maps.event.MARKER_CLICK, events);
-
-    map.markerAdded(marker);
+    marker.position = options.position;
 
     callback(marker);
   });
 };
 
-GoogleMaps.animateCamera = function (map, options, callback) {
-  map.animateCamera(options, callback);
+GoogleMaps.LatLng = function (lat, lng) {
+  return new plugin.google.maps.LatLng(lat, lng);
+};
+
+GoogleMaps.LatLngBounds = function () {
+  return new plugin.google.maps.LatLngBounds();
+};
+
+GoogleMaps.mapType = function (type) {
+  return plugin.google.maps.MapTypeId[type];
+};
+
+GoogleMaps.removeMarker = function (marker) {
+  marker.remove();
+};
+
+GoogleMaps.bindMarkerEvents = function (map, marker) {
+  var eventsMap = Maps.Utility.parseEvents(map, 'marker', marker);
+  if (eventsMap) marker._marker.addEventListener(plugin.google.maps.event.MARKER_CLICK, eventsMap);
 };

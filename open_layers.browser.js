@@ -1,5 +1,3 @@
-/* global OpenLayers:true, Maps:false */
-
 // XXX
 // OpenLayers has yet to be fully implemented.
 // This is just an example to show how the map library could be easily switched.
