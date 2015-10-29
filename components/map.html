@@ -1,0 +1,13 @@
+<template name="Map">
+  <div id="{{id}}" class="{{class}}" style="{{style}}">
+    {{! The cordova api requires the html to be inside of the container}}
+    {{#if isCordova}}
+      {{> Template.contentBlock}}
+    {{/if}}
+  </div>
+
+  {{! The javascript v3 API requires the html to be outside of the container}}
+  {{#unless isCordova}}
+    {{> Template.contentBlock}}
+  {{/unless}}
+</template>
