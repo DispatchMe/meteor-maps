@@ -4,7 +4,7 @@ An easy to use map package for using Google Maps with Blaze.
 #### Install
 
 ```
-$ meteor install dispatch:maps
+$ meteor add dispatch:maps
 ```
 
 For use with cordova, edit your `mobile-config.js`:
@@ -21,7 +21,7 @@ App.configurePlugin('plugin.google.maps', {
     GoogleMaps.load({
       v: '3.20',
       client: Meteor.settings.public.GOOGLE_MAPS_CLIENT_ID,
-      libraries: 'geometry,places'
+      libraries: 'geometry,places',
       language: 'en'
     });
   });
