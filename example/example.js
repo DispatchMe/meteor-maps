@@ -9,26 +9,12 @@ if (Meteor.isClient) {
     });
   });
 
-  var mapReady = new ReactiveVar(false);
-
-  Maps.onReady(function () {
-    mapReady.set(true);
-  });
-
-  Template.registerHelper('ready', function () {
-    return mapReady.get();
-  });
-
   Template.example.events({
     'click marker': function (event, template, marker) {
-      // marker.setAnimation(google.maps.Animation.j);
-    },
-    'click marker#marker1': function (event, template, marker) {
       marker.showInfoWindow();
-      console.log('yse')
+
     },
     'click marker#marker2': function () {
-      console.log('set');
       label.set('test ' + Math.random())
     },
     'click infowindow#marker1': function (event, template, infowindow) {
@@ -39,9 +25,9 @@ if (Meteor.isClient) {
   Template.example.helpers({
     mapOptions: function () {
       return {
-        center: Maps.LatLng(42.3601, -71.0589),
+        center: [42.3601, -71.0589],
         zoom: 8,
-        mapTypeId: Maps.mapType('ROADMAP')
+        mapTypeId: 'ROADMAP'
       };
     },
     marker1Content: function () {
@@ -53,3 +39,4 @@ if (Meteor.isClient) {
     this.marker1Size = new ReactiveVar([10, 10]);
   });
 }
+

@@ -29,7 +29,7 @@ Maps.onReady = function(hook) {
   Maps._state.once('loaded', hook);
 };
 
-Maps.mapType = function (type) {
+Maps.MapType = function (type) {
   return Maps._currentLibrary.mapType(type);
 };
 
@@ -42,7 +42,6 @@ Maps.LatLngBounds = function () {
 };
 
 Maps.Map = function (id, options) {
-  console.log(id, options)
   if (Maps._maps[id]) return Maps._maps[id];
 
   Maps._maps[id] = new Map(id, options);
@@ -55,6 +54,12 @@ class Map {
     if (!id) throw new Meteor.Error('Please specify an id for the map');
 
     options = options || {};
+
+    if (options.center instanceof Array) {
+      options.center = Maps.LatLng.apply(this, options.center);
+    }
+
+    options.mapTypeId = Maps.MapType(options.mapTypeId || 'ROADMAP');
 
     this._map = Maps.createMap(options.container.firstNode, options);
     this._markers = [];

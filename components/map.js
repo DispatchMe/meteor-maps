@@ -9,15 +9,19 @@ Template.Map.onCreated(function () {
 });
 
 Template.Map.onRendered(function () {
-  var options = _.extend(this.data.options, { container: this });
+  var self = this;
 
-  var map = Maps.Map(this.data.id, options);
+  Maps.onReady(function () {
+    var options = _.extend(self.data.options, { container: self });
 
-  var parentTemplate = this.parent();
+    var map = Maps.Map(self.data.id, options);
 
-  if (parentTemplate) {
-    map.bindEvents(parentTemplate.view.template.__eventMaps[0]);
-  }
+    var parentTemplate = self.parent();
 
-  this.map.set(map);
+    if (parentTemplate) {
+      map.bindEvents(parentTemplate.view.template.__eventMaps[0]);
+    }
+
+    self.map.set(map);
+  });
 });
