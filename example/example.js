@@ -10,10 +10,9 @@ if (Meteor.isClient) {
   Template.example.events({
     'click marker': function (event, template, marker) {
       marker.showInfoWindow();
-
     },
     'click marker#marker2': function () {
-      label.set('test ' + Math.random());
+      label.set('Check it, I have reactively updated: ' + Math.random());
     },
     'click infowindow#marker1': function (event, template, infowindow) {
       alert(infowindow.getContent());
@@ -25,7 +24,8 @@ if (Meteor.isClient) {
       return {
         center: [42.3601, -71.0589],
         zoom: 8,
-        mapTypeId: 'ROADMAP'
+        mapTypeId: 'ROADMAP',
+        scrollwheel: false
       };
     },
     marker1Content: function () {
@@ -43,10 +43,6 @@ if (Meteor.isClient) {
         destination: [43.3601, -72.0589]
       };
     }
-  });
-
-  Template.example.onCreated(function () {
-    this.marker1Size = new ReactiveVar([10, 10]);
   });
 }
 

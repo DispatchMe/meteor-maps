@@ -2,10 +2,14 @@ Maps = {};
 Maps.Library = {};
 
 Maps._currentLibrary = null;
-Maps._state = new EventState();
-
+Maps._loaded = false;
 Maps._maps = {};
 Maps._markers = {};
+Maps._state = new EventState();
+
+Maps._state.once('loaded', function () {
+  Maps._loaded = true;
+});
 
 Maps.load = function (mapLibrary, options) {
   Meteor.startup(function () {

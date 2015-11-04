@@ -19,15 +19,15 @@ Utility.parseEvents = function (map, entityType, entity) {
   var events = map && map._events;
   if (!events) return;
 
-  if (!events['click ' + entityType] && !events['click ' + entityType + '#' + entity.eventsId]) return;
+  if (!events['click ' + entityType] && !events['click ' + entityType + '#' + entity.id]) return;
 
   return function () {
     if (events['click ' + entityType]) {
       events['click ' + entityType].call(map._view, { currentTarget: map._view }, entity);
     }
 
-    if (events['click ' + entityType + '#' + entity.eventsId]) {
-      events['click ' + entityType + '#' + entity.eventsId].call(map._view, { currentTarget: map._view }, entity);
+    if (events['click ' + entityType + '#' + entity.id]) {
+      events['click ' + entityType + '#' + entity.id].call(map._view, { currentTarget: map._view }, entity);
     }
   };
 };
@@ -37,10 +37,6 @@ Utility.updateProperties = function (entity, data) {
     if (!entity.hasOwnProperty(key) && key.substring(0, 3) === 'set') {
       var propertyToSet = getPropertyToSet(key.substring(3).toLowerCase());
       var valueToSet = data[propertyToSet];
-
-      // If the content is being updated use the 'setDynamicContent' function
-      // which will change the content and set the events up on the new DOM element.
-      if (!Meteor.isCordova && key === 'setContent') key = 'setDynamicContent';
 
       // If there is a value to set for the current property
       // then run the set function with that value.

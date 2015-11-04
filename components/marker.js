@@ -40,7 +40,11 @@ Marker = class Marker {
     if (this._infowindow) this._infowindow.close();
   }
 
-  setDynamicContent(newContent) {
+  getContent() {
+    return $('#' + this.id).html();
+  }
+
+  setContent(newContent) {
     if (this._infowindow) {
       var contentToSet = '<div id="' + this.id + '" style="' + this.styles + '">' + newContent + '</div>';
 
@@ -82,9 +86,6 @@ Template.Marker.onCreated(function () {
 
     // Update marker properties
     Maps.Utility.updateProperties(self.marker, data);
-
-    // Update info window properties
-    Maps.Utility.updateProperties(self.marker.infowindow, data);
   });
 });
 
