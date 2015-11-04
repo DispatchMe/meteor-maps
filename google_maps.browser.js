@@ -28,9 +28,17 @@ GoogleMaps.addMarker = function (map, options, callback) {
   options = _.extend({ map: map }, options);
 
   if (_.isObject(options.icon)) {
-    if (options.icon.size) options.icon.size = new google.maps.Size(options.icon.size[0], options.icon.size[1]);
-    if (options.icon.origin) options.icon.origin = new google.maps.Point(options.icon.origin[0], options.icon.origin[1]);
-    if (options.icon.anchor) options.icon.anchor = new google.maps.Point(options.icon.anchor[0], options.icon.anchor[1]);
+    if (options.icon.size) {
+      options.icon.size = new google.maps.Size(options.icon.size[0], options.icon.size[1]);
+    }
+
+    if (options.icon.origin) {
+      options.icon.origin = new google.maps.Point(options.icon.origin[0], options.icon.origin[1]);
+    }
+
+    if (options.icon.anchor) {
+      options.icon.anchor = new google.maps.Point(options.icon.anchor[0], options.icon.anchor[1]);
+    }
   }
 
   var marker = new google.maps.Marker(options);
@@ -160,10 +168,9 @@ GoogleMaps.setZoom = function (map, zoom) {
  * They have been created to attempt to mimic some functionality in the native API.
  */
 
-GoogleMaps.animateCamera = function (map, options, callback) {
+GoogleMaps.animateCamera = function (map, options) {
   options = options || {};
 
-  console.log(map, options)
   if (options.target) {
     if (options.target instanceof google.maps.LatLng) {
       map.panTo(options.target);

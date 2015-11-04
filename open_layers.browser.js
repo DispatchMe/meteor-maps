@@ -14,14 +14,14 @@ OpenLayers.load = function () {
   script.src = 'http://openlayers.org/en/v3.8.2/build/ol.js';
 
   script.onload = function () {
-    Maps._maps = ol;
-    Maps._state.emitState('loaded', ol);
+    Maps._maps = window.ol;
+    Maps._state.emitState('loaded', window.ol);
   };
 
   document.body.appendChild(script);
 };
 
-OpenLayers.createMap = function (container, options) {
+OpenLayers.createMap = function (container) {
   return new Maps._maps.Map({
     target: container.id,
     layers: [

@@ -1,54 +1,3 @@
-Maps = {};
-Maps.Library = {};
-
-Maps._currentLibrary = null;
-Maps._maps = {};
-Maps._state = new EventState();
-Maps._loaded = false;
-
-Maps._state.once('loaded', function () {
-  Maps._loaded = true;
-});
-
-Maps.load = function (mapLibrary, options) {
-  Maps._currentLibrary = Maps.Library[mapLibrary];
-  if (!Maps._currentLibrary) throw new Error(mapLibrary, 'is not a supported library');
-
-  Maps._currentLibrary.load(options);
-};
-
-Maps.createMap = function (container, options) {
-  if (!Maps._loaded) throw new Error('Maps has not been loaded yet');
-
-  options = options || {};
-
-  return Maps._currentLibrary.createMap(container, options);;
-};
-
-Maps.onReady = function(hook) {
-  Maps._state.once('loaded', hook);
-};
-
-Maps.MapType = function (type) {
-  return Maps._currentLibrary.mapType(type);
-};
-
-Maps.LatLng = function (lat, lng) {
-  return Maps._currentLibrary.LatLng(lat, lng);
-};
-
-Maps.LatLngBounds = function () {
-  return Maps._currentLibrary.LatLngBounds();
-};
-
-Maps.Map = function (id, options) {
-  if (Maps._maps[id]) return Maps._maps[id];
-
-  Maps._maps[id] = new Map(id, options);
-
-  return Maps._maps[id];
-};
-
 class Map {
   constructor(id, options) {
     if (!id) throw new Meteor.Error('Please specify an id for the map');
@@ -239,3 +188,54 @@ class Marker {
     return this._marker.position;
   }
 }
+
+Maps = {};
+Maps.Library = {};
+
+Maps._currentLibrary = null;
+Maps._maps = {};
+Maps._state = new EventState();
+Maps._loaded = false;
+
+Maps._state.once('loaded', function () {
+  Maps._loaded = true;
+});
+
+Maps.load = function (mapLibrary, options) {
+  Maps._currentLibrary = Maps.Library[mapLibrary];
+  if (!Maps._currentLibrary) throw new Error(mapLibrary, 'is not a supported library');
+
+  Maps._currentLibrary.load(options);
+};
+
+Maps.createMap = function (container, options) {
+  if (!Maps._loaded) throw new Error('Maps has not been loaded yet');
+
+  options = options || {};
+
+  return Maps._currentLibrary.createMap(container, options);
+};
+
+Maps.onReady = function(hook) {
+  Maps._state.once('loaded', hook);
+};
+
+Maps.MapType = function (type) {
+  return Maps._currentLibrary.mapType(type);
+};
+
+Maps.LatLng = function (lat, lng) {
+  return Maps._currentLibrary.LatLng(lat, lng);
+};
+
+Maps.LatLngBounds = function () {
+  return Maps._currentLibrary.LatLngBounds();
+};
+
+Maps.Map = function (id, options) {
+  if (Maps._maps[id]) return Maps._maps[id];
+
+  Maps._maps[id] = new Map(id, options);
+
+  return Maps._maps[id];
+};

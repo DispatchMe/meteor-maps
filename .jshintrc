@@ -67,14 +67,18 @@
   "predef": [
     "_",
     "$",
+    "App",
+    "Cordova",
     "EventState",
     "google",
     "Meteor",
+    "Package",
     "plugin",
     "ReactiveVar",
     "Template"
   ],
   "globals": {
+    "Map": true,
     "Maps": true
   }
 }

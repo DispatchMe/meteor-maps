@@ -1,5 +1,5 @@
 if (Meteor.isClient) {
-  label = new ReactiveVar('test');
+  var label = new ReactiveVar('test');
 
   Meteor.startup(function () {
     Maps.load('GoogleMaps', {
@@ -15,7 +15,7 @@ if (Meteor.isClient) {
 
     },
     'click marker#marker2': function () {
-      label.set('test ' + Math.random())
+      label.set('test ' + Math.random());
     },
     'click infowindow#marker1': function (event, template, infowindow) {
       alert(infowindow.getContent());

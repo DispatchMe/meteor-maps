@@ -32,7 +32,7 @@ GoogleMaps.addMarker = function (map, options, callback) {
   }
 
   options.snippet = options.content;
-  options.disableAutoPan = true
+  options.disableAutoPan = true;
 
   map.addMarker(options, function (marker) {
     marker.eventsId = options.id;
