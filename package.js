@@ -1,6 +1,6 @@
 Package.describe({
   name: 'dispatch:maps',
-  version: '0.0.1',
+  version: '1.0.0',
   summary: 'General map package for both browser and cordova'
 });
 
