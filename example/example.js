@@ -1,12 +1,10 @@
 if (Meteor.isClient) {
   var label = new ReactiveVar('test');
 
-  Meteor.startup(function () {
-    Maps.load('GoogleMaps', {
-      v: '3.20',
-      client: Meteor.settings.public.GOOGLE_MAPS_CLIENT_ID,
-      libraries: 'places'
-    });
+  Maps.load('GoogleMaps', {
+    v: '3.20',
+    client: Meteor.settings.public.GOOGLE_MAPS_CLIENT_ID,
+    libraries: 'places'
   });
 
   Template.example.events({
@@ -32,6 +30,18 @@ if (Meteor.isClient) {
     },
     marker1Content: function () {
       return label.get();
+    },
+    directionsOptions1: function () {
+      return {
+        origin: [42.3601, -74.0589],
+        destination: [42.3601, -71.0589]
+      };
+    },
+    directionsOptions2: function () {
+      return {
+        origin: [41.3601, -72.0589],
+        destination: [43.3601, -72.0589]
+      };
     }
   });
 

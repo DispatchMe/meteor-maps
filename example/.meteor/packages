@@ -20,4 +20,4 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 reactive-var
 templating
 
-dispatch:maps@0.0.1
+dispatch:maps@1.0.0

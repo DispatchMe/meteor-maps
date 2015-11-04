@@ -10,5 +10,8 @@
   {{#Map id="example" options=mapOptions}}
     {{> Marker id="marker1" lat='42.3601' lng='-71.0589' content=marker1Content}}
     {{> Marker id="marker2" lat='42.3601' lng='-72.0589'}}
+
+    {{> Directions id="directions1" origin=directionsOptions1.origin destination=directionsOptions1.destination}}
+    {{> Directions id="directions2" origin=directionsOptions2.origin destination=directionsOptions2.destination}}
   {{/Map}}
 </template>

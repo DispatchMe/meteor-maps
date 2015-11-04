@@ -79,6 +79,7 @@
   ],
   "globals": {
     "Map": true,
-    "Maps": true
+    "Maps": true,
+    "Marker": true
   }
 }

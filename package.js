@@ -25,6 +25,8 @@ Package.onUse(function(api) {
   ], 'client');
 
   api.addFiles([
+    'components/directions.html',
+    'components/directions.js',
     'components/marker.html',
     'components/marker.js',
     'components/map.html',

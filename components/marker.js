@@ -1,3 +1,64 @@
+Marker = class Marker {
+  constructor(id, map, options) {
+    if (!id) throw new Meteor.Error('Please specify an id for the marker');
+
+    var self = this;
+
+    options = options || {};
+
+    self._marker = null;
+    self._infowindow = null;
+
+    self.id = id;
+    self.map = map;
+    self.styles = options.styles;
+
+    if (self.map) {
+      Maps._currentLibrary.addMarker(self.map._map, options, function (marker, infowindow) {
+        self._marker = marker;
+        self._infowindow = infowindow;
+
+        Maps._currentLibrary.bindMarkerEvents(self.map, self);
+      });
+    }
+  }
+
+  remove() {
+    Maps._currentLibrary.removeMarker(this._marker);
+  }
+
+  showInfoWindow() {
+    if (this._infowindow) {
+      this._infowindow.open(this.map._map, this._marker);
+
+      var eventsMap = Maps.Utility.parseEvents(this.map, 'infowindow', this._infowindow);
+      if (eventsMap) $('#' + this.id).click(eventsMap);
+    }
+  }
+
+  hideInfoWindow() {
+    if (this._infowindow) this._infowindow.close();
+  }
+
+  setDynamicContent(newContent) {
+    if (this._infowindow) {
+      var contentToSet = '<div id="' + this.id + '" style="' + this.styles + '">' + newContent + '</div>';
+
+      this._infowindow.setContent(contentToSet);
+
+      var eventsMap = Maps.Utility.parseEvents(this.map, 'infowindow', this._infowindow);
+      if (eventsMap) $('#' + this.id).click(eventsMap);
+    }
+  }
+
+  getPosition() {
+    return this._marker.position;
+  }
+};
+
+/**
+ * Marker Template
+ */
 Template.Marker.onCreated(function () {
   var self = this;
   var parentTemplate = self.parent(null, true);
